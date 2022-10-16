@@ -2,6 +2,21 @@ const User = require("../Models/user.model");
 const userService = require("../Services/user.services");
 const { generateToken } = require("../utils/token");
 
+exports.getMe = async (req, res) => {
+    try {
+        const { email } = req.user;
+        const user = await userService.findByEmailService(email);
+        res.status(200).json({
+            status: "success",
+            data: user
+        })
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            message: error.message
+        })
+    }
+};
 exports.userSignUp = async (req, res) => {
     try {
         const userData = req.body;
@@ -32,7 +47,7 @@ exports.userLogin = async (req, res) => {
             })
         }
 
-        const user = await userService.loginService(email);
+        const user = await userService.findByEmailService(email);
 
         if (!user) {
             return res.status(401).send({
