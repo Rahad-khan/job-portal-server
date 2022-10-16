@@ -60,7 +60,7 @@ const userSchema = new Schema({
     },
     status: {
         type: String,
-        default: "inactive",
+        default: "active",
         enum: ["active", "inactive", "discontinue"]
     },
     passChangeDate: String,
@@ -75,13 +75,16 @@ userSchema.pre("save", function (next) {
     const password = this.password;
 
     const hashedPassword = bcrypt.hashSync(password, salt);
-    console.log(`file: user.model.js ~ line 78 ~ hashPassword`, hashedPassword)
 
-    console.log(`file: user.model.js ~ line 78 ~ salt`, salt);
     this.password = hashedPassword;
     this.confirmPassword = undefined;
     next();
-})
+});
+
+userSchema.methods.matchPassword = function (password, hash) {
+    const isPasswordValid = bcrypt.compareSync(password, hash);
+    return isPasswordValid;
+}
 
 
 const User = model('User', userSchema);

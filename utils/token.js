@@ -1,5 +1,14 @@
-const jwt = require('json')
+const jwt = require('jsonwebtoken');
 
-exports.token = (payLoad) => {
+require('dotenv').config();
 
+exports.generateToken = (data) => {
+    const payload = {
+        email: data?.email,
+        role: data?.role
+    }
+    const token = jwt.sign(payload, process.env.SECRET_TOKEN, {
+        expiresIn: '2h'
+    })
+    return token;
 }
