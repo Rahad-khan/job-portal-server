@@ -23,7 +23,8 @@ exports.userSignUp = async (req, res) => {
 
         const tokenData = {
             email: result?.email,
-            role: result?.role
+            role: result?.role,
+            id: result?._id
         }
         const token = generateToken(tokenData)
 
@@ -74,9 +75,15 @@ exports.userLogin = async (req, res) => {
                 status: "fail",
                 message: "Please verify your account"
             })
+        };
+
+        const tokenData = {
+            email: user?.email,
+            role: user?.role,
+            id: user?._id
         }
 
-        const token = generateToken(user)
+        const token = generateToken(tokenData)
 
         res.status(200).json({
             status: "success",

@@ -66,13 +66,8 @@ const userSchema = new Schema({
     },
     postedJob: [
         {
-            name: {
-                type: String
-            },
-            id: {
-                type: ObjectId,
-                ref: "Job"
-            }
+            type: ObjectId,
+            ref: "Job"
         }
     ],
     appliedJob: [

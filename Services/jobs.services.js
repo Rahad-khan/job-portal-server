@@ -3,9 +3,8 @@ const User = require("../Models/User");
 
 exports.createJobService = async (data) => {
     const result = await Job.create(data);
-    const { name, hrManager, _id: jobId } = result;
-    const postJobInUserData = { name, jobId }
-    await User.updateOne({ _id: hrManager.id }, { $push: { postedJob: postJobInUserData } })
+    const { hrManager, _id: jobId } = result;
+    await User.updateOne({ _id: hrManager.id }, { $push: { postedJob: jobId } })
     return result;
 };
 exports.updateJobByIdService = async (id, doc) => {
@@ -13,6 +12,9 @@ exports.updateJobByIdService = async (id, doc) => {
 };
 exports.getJobsService = async () => {
     return await Job.find({});
+};
+exports.getHrJobsById = async (id) => {
+    return await User.findOne({ _id: id }).select('postedJob').populate('postedJob');
 };
 
 
