@@ -6,6 +6,9 @@ const verifyToken = require('../../utils/verifyToken');
 const router = Router();
 
 router.route('/')
-    .post(jobsController.postJob)
+    .get(jobsController.getJobs)
+    .post(jobsController.postJob);
+
+router.patch('/:id', jobsController.updateJob)
 
 module.exports = router;

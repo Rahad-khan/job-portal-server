@@ -8,3 +8,12 @@ exports.createJobService = async (data) => {
     await User.updateOne({ _id: hrManager.id }, { $push: { postedJob: postJobInUserData } })
     return result;
 };
+exports.updateJobByIdService = async (id, doc) => {
+    return await Job.findByIdAndUpdate({ _id: id }, { $set: doc }, { new: true, rawResult: true })
+};
+exports.getJobsService = async () => {
+    return await Job.find({});
+};
+
+
+
