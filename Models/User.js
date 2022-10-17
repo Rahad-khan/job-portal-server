@@ -3,6 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
 
+const { ObjectId } = Schema.Types
 
 const userSchema = new Schema({
     firstName: {
@@ -63,6 +64,28 @@ const userSchema = new Schema({
         default: "active",
         enum: ["active", "inactive", "discontinue"]
     },
+    postedJob: [
+        {
+            name: {
+                type: String
+            },
+            id: {
+                type: ObjectId,
+                ref: "Job"
+            }
+        }
+    ],
+    appliedJob: [
+        {
+            name: {
+                type: String
+            },
+            id: {
+                type: ObjectId,
+                ref: "Job"
+            }
+        }
+    ],
     passChangeDate: String,
     passResetToken: String,
     passResetExpires: String,

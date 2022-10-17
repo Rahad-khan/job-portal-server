@@ -1,0 +1,14 @@
+{
+    "name": "FrontEnd Web Developer",
+    "salary": 10000,
+    "location": "rajshahi",
+    "jobShift": "remote",
+    "jobType": "internship",
+    "description": "ESoft Technologies Private Limited is a product and services company with a global presence. We started our operations in the year 2012. We have come a long way in the past nine years. We have global clients from Singapore, the US, the UK, Canada, and the Middle East. Some of our clients are from the Fortune 500 list and big global names. We have helped many clients reach their goals & have been supporting them with our software expertise. We had launched a couple of products a few years ago and they are very successful now. The company offers an awesome working culture.",
+    "hrManager": {
+        "name": "Taz Keya",
+        "contactNumber": "01317326853",
+        "id": "634c501d9bba54355df39f4d"
+    },
+    "expireDate": "2022 27 10"
+}

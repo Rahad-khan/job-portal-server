@@ -1,4 +1,3 @@
-const User = require("../Models/user.model");
 const userService = require("../Services/user.services");
 const { generateToken } = require("../utils/token");
 
@@ -22,7 +21,11 @@ exports.userSignUp = async (req, res) => {
         const userData = req.body;
         const result = await userService.signUpService(userData);
 
-        const token = generateToken(result)
+        const tokenData = {
+            email: result?.email,
+            role: result?.role
+        }
+        const token = generateToken(tokenData)
 
         res.status(200).json({
             status: "success",
