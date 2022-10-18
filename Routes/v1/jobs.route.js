@@ -5,6 +5,8 @@ const verifyToken = require('../../utils/verifyToken');
 
 const router = Router();
 
+router.post('/:id/apply', verifyToken, jobsController.applyJobById)
+
 router.route('/')
     .get(jobsController.getJobs)
     .post(jobsController.postJob);

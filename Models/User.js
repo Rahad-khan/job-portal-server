@@ -72,13 +72,8 @@ const userSchema = new Schema({
     ],
     appliedJob: [
         {
-            name: {
-                type: String
-            },
-            id: {
-                type: ObjectId,
-                ref: "Job"
-            }
+            type: ObjectId,
+            ref: "Job"
         }
     ],
     passChangeDate: String,

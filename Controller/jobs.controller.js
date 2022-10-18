@@ -15,10 +15,10 @@ exports.getJobs = async (req, res) => {
         })
     }
 };
-exports.getJobById = async (req, res) => {
+exports.postJob = async (req, res) => {
     try {
-        const { id } = req.params;
-        const job = await jobService.findJobById(id, selection = '-applierList');
+        const data = req.body;
+        const job = await jobService.createJobService(data);
         res.status(200).json({
             status: "success",
             message: "Your Job posted successfully",
@@ -31,13 +31,14 @@ exports.getJobById = async (req, res) => {
         })
     }
 };
-exports.postJob = async (req, res) => {
+exports.getJobById = async (req, res) => {
     try {
-        const data = req.body;
-        const job = await jobService.createJobService(data);
+        console.log(req.params)
+        const { id } = req.params;
+        const job = await jobService.findJobById(id, selection = '-applierList');
         res.status(200).json({
             status: "success",
-            message: "Your Job posted successfully",
+            message: "Job Find successfully",
             data: job
         })
     } catch (error) {
@@ -65,6 +66,33 @@ exports.updateJob = async (req, res) => {
             })
         }
 
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            message: error.message
+        })
+    }
+};
+
+exports.applyJobById = async (req, res) => {
+    try {
+        const { id: jobId } = req.params;
+
+        const { id: userId } = req.user;
+
+        const result = await jobService.applierService(jobId, userId);
+
+        if (result?.modifiedCount) {
+            res.status(200).json({
+                status: "success",
+                message: "Job applied successfully",
+            })
+        } else {
+            res.status(401).json({
+                status: "fail",
+                message: result?.message || "Something went wrong"
+            })
+        }
     } catch (error) {
         res.status(400).json({
             status: "fail",

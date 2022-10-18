@@ -1,5 +1,7 @@
 const Job = require("../Models/Job");
+const { findOne } = require("../Models/User");
 const User = require("../Models/User");
+const validator = require('validator');
 
 exports.createJobService = async (data) => {
     const result = await Job.create(data);
@@ -18,6 +20,28 @@ exports.getHrJobsById = async (id) => {
 };
 exports.findJobById = async (id, selection) => {
     return await Job.findById({ _id: id }).select(selection);
+};
+exports.applierService = async (jobId, userId) => {
+    const job = await Job.findOne({ _id: jobId }).select('applierList expireDate');
+    const isExist = job?.applierList?.includes(userId);
+
+
+    const date = new Date();
+    const isDateBackdated = validator.isAfter(date.toDateString(), job?.expireDate.toDateString());
+    if (isDateBackdated) {
+        return {
+            message: "Job date is expired"
+        }
+    };
+    if (isExist) {
+        return {
+            message: "already applied"
+        }
+    };
+    await User.updateOne({ _id: userId }, { $push: { appliedJob: jobId } })
+    const result = await Job.updateOne({ _id: jobId }, { $push: { applierList: userId } },
+        { rawResult: true });
+    return result;
 };
 
 
