@@ -70,6 +70,7 @@ const userSchema = new Schema({
             ref: "Job"
         }
     ],
+    pdf: [String],
     appliedJob: [
         {
             type: ObjectId,

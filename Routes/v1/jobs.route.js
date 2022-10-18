@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const jobsController = require('../../Controller/jobs.controller');
+const upload = require('../../middleware/Uploader');
 
 const verifyToken = require('../../utils/verifyToken');
 
 const router = Router();
 
-router.post('/:id/apply', verifyToken, jobsController.applyJobById)
+router.post('/:id/apply', verifyToken, upload.single("doc"), jobsController.applyJobById)
 
 router.route('/')
     .get(jobsController.getJobs)

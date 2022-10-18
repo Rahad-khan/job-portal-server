@@ -79,13 +79,19 @@ exports.applyJobById = async (req, res) => {
         const { id: jobId } = req.params;
 
         const { id: userId } = req.user;
-
-        const result = await jobService.applierService(jobId, userId);
+        console.log(req.file)
+        const result = await jobService.applierService(jobId, userId, req?.file?.path);
 
         if (result?.modifiedCount) {
+            if (req?.file) {
+                return res.status(200).json({
+                    status: "success",
+                    message: "Job applied successfully with pdf"
+                })
+            }
             res.status(200).json({
                 status: "success",
-                message: "Job applied successfully",
+                message: "Job applied successfully"
             })
         } else {
             res.status(401).json({

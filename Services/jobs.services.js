@@ -21,10 +21,9 @@ exports.getHrJobsById = async (id) => {
 exports.findJobById = async (id, selection) => {
     return await Job.findById({ _id: id }).select(selection);
 };
-exports.applierService = async (jobId, userId) => {
+exports.applierService = async (jobId, userId, pdfPath) => {
     const job = await Job.findOne({ _id: jobId }).select('applierList expireDate');
     const isExist = job?.applierList?.includes(userId);
-
 
     const date = new Date();
     const isDateBackdated = validator.isAfter(date.toDateString(), job?.expireDate.toDateString());
@@ -38,7 +37,7 @@ exports.applierService = async (jobId, userId) => {
             message: "already applied"
         }
     };
-    await User.updateOne({ _id: userId }, { $push: { appliedJob: jobId } })
+    await User.updateOne({ _id: userId }, { $push: { appliedJob: jobId, pdf: pdfPath } })
     const result = await Job.updateOne({ _id: jobId }, { $push: { applierList: userId } },
         { rawResult: true });
     return result;
