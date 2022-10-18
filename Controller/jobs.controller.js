@@ -15,6 +15,22 @@ exports.getJobs = async (req, res) => {
         })
     }
 };
+exports.getJobById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const job = await jobService.findJobById(id, selection = '-applierList');
+        res.status(200).json({
+            status: "success",
+            message: "Your Job posted successfully",
+            data: job
+        })
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            message: error.message
+        })
+    }
+};
 exports.postJob = async (req, res) => {
     try {
         const data = req.body;

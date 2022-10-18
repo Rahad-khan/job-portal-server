@@ -24,16 +24,11 @@ exports.getHrJobs = async (req, res) => {
         })
     }
 };
-exports.getJobById = async (req, res) => {
+exports.getHrJobById = async (req, res) => {
     try {
         const { id } = req.params;
-        // if (role !== 'hr' && role !== 'admin') {
-        //     return res.status(403).json({
-        //         status: "fail",
-        //         message: "Unauthorized access"
-        //     })
-        // }
-        const result = await jobService.findJobById(id);
+
+        const result = await jobService.findJobById(id, selection = '-hrManager');
 
         res.status(200).json({
             status: "success",

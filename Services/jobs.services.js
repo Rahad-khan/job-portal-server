@@ -16,8 +16,8 @@ exports.getJobsService = async () => {
 exports.getHrJobsById = async (id) => {
     return await User.findOne({ _id: id }).select('postedJob').populate('postedJob');
 };
-exports.findJobById = async (id) => {
-    return await Job.findById({ _id: id });
+exports.findJobById = async (id, selection) => {
+    return await Job.findById({ _id: id }).select(selection);
 };
 
 

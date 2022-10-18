@@ -9,6 +9,8 @@ router.route('/')
     .get(jobsController.getJobs)
     .post(jobsController.postJob);
 
-router.patch('/:id', jobsController.updateJob)
+router.route('/:id')
+    .patch(jobsController.updateJob)
+    .get(jobsController.getJobById)
 
 module.exports = router;
