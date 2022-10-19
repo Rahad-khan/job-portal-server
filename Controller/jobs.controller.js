@@ -3,7 +3,8 @@ const jobService = require("../Services/jobs.services");
 
 exports.getJobs = async (req, res) => {
     try {
-        const filter = { ...req.query }
+        const filter = { ...req.query };
+        const { page = 1, limit = 5 } = req.query;
 
         const excludeFields = ['sort', 'page', 'limit', 'fields'];
 
@@ -15,6 +16,19 @@ exports.getJobs = async (req, res) => {
             const sortField = req.query.sort.split(',').join(' ');
             queries.sort = sortField;
         };
+        if (req.query.fields) {
+            const selectFields = req.query.fields.split(',').join(' ');
+            queries.fields = selectFields;
+        };
+        /**
+         * page 1*0 + 5 -> 5
+         * page 2 
+         */
+        if (page || limit) {
+            const skipLimit = (page - 1) * +limit;
+            queries.skip = skipLimit,
+                queries.limit = limit
+        }
 
         const result = await jobService.getJobsService(filter, queries);
         res.status(200).json({

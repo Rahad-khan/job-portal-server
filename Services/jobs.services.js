@@ -13,7 +13,11 @@ exports.updateJobByIdService = async (id, doc) => {
     return await Job.findByIdAndUpdate({ _id: id }, { $set: doc }, { new: true, rawResult: true })
 };
 exports.getJobsService = async (filter, queries) => {
-    return await Job.find(filter).sort(queries.sort);
+    return await Job.find(filter)
+        .skip(queries.skip)
+        .limit(queries.limit)
+        .select(queries.fields)
+        .sort(queries.sort);
 };
 exports.getHrJobsById = async (id) => {
     return await User.findOne({ _id: id }).select('postedJob').populate('postedJob');
