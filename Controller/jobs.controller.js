@@ -3,7 +3,20 @@ const jobService = require("../Services/jobs.services");
 
 exports.getJobs = async (req, res) => {
     try {
-        const result = await jobService.getJobsService();
+        const filter = { ...req.query }
+
+        const excludeFields = ['sort', 'page', 'limit', 'fields'];
+
+        excludeFields.forEach(field => delete filter[field]);
+
+        const queries = {};
+
+        if (req.query.sort) {
+            const sortField = req.query.sort.split(',').join(' ');
+            queries.sort = sortField;
+        };
+
+        const result = await jobService.getJobsService(filter, queries);
         res.status(200).json({
             status: "success",
             data: result
