@@ -1,6 +1,4 @@
 module.exports = (...role) => {
-    console.log(`file: AuthRoute.js ~ line 2 ~ role`, role)
-
     return (req, res, next) => {
         const userRole = req.user.role;
         if (!role.includes(userRole)) {

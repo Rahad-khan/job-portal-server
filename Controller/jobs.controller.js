@@ -72,7 +72,7 @@ exports.getJobById = async (req, res) => {
     try {
         console.log(req.params)
         const { id } = req.params;
-        const job = await jobService.findJobById(id, selection = '-applierList');
+        const job = await jobService.findJobById(id, selection = '-applierDoc');
         res.status(200).json({
             status: "success",
             message: "Job Find successfully",
@@ -116,7 +116,6 @@ exports.applyJobById = async (req, res) => {
         const { id: jobId } = req.params;
 
         const { id: userId } = req.user;
-        console.log(req.file)
         const result = await jobService.applierService(jobId, userId, req?.file?.path);
 
         if (result?.modifiedCount) {

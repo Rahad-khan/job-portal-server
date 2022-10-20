@@ -18,12 +18,8 @@ const upload = multer({
         fieldSize: '5000000'
     },
     fileFilter: (req, file, cb) => {
-        console.log(`file: Uploader.js ~ line 14 ~ file`, file)
-
         const acceptedFile = /pdf|docx/;
         const extensionName = path.extname(file.originalname)
-        console.log(`file: Uploader.js ~ line 19 ~ extensionName`, extensionName)
-
 
         if (acceptedFile.test(extensionName)) {
             cb(null, true)

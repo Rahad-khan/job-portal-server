@@ -70,11 +70,13 @@ const userSchema = new Schema({
             ref: "Job"
         }
     ],
-    pdf: [String],
-    appliedJob: [
+    appliedDoc: [
         {
-            type: ObjectId,
-            ref: "Job"
+            jobId: {
+                type: ObjectId,
+                ref: "User"
+            },
+            pdfPath: String
         }
     ],
     passChangeDate: String,

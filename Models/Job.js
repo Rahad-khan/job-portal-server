@@ -61,10 +61,15 @@ const jobSchema = new Schema({
         }
 
     },
-    applierList: [{
-        type: ObjectId,
-        ref: "User"
-    }],
+    applierDoc: [
+        {
+            applierId: {
+                type: ObjectId,
+                ref: "User"
+            },
+            pdfPath: String
+        }
+    ],
     expireDate: {
         type: Date,
         required: [true, "Job expiration date is required"],
