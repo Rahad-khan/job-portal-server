@@ -20,8 +20,10 @@ exports.getHrJobs = async (req, res) => {
 exports.getHrJobById = async (req, res) => {
     try {
         const { id } = req.params;
-
-        const result = await jobService.findJobById(id, selection = '-hrManager');
+        const populateQuery = {};
+        populateQuery.path = 'applierDoc';
+        populateQuery.id = 'applierId'
+        const result = await jobService.findJobById(id, selection = '-hrManager', populateQuery);
 
         res.status(200).json({
             status: "success",

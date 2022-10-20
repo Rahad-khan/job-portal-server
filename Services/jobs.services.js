@@ -22,8 +22,22 @@ exports.getJobsService = async (filter, queries) => {
 exports.getHrJobsById = async (id) => {
     return await User.findOne({ _id: id }).select('postedJob').populate('postedJob');
 };
-exports.findJobById = async (id, selection) => {
-    return await Job.findById({ _id: id }).select(selection);
+exports.findJobById = async (id, selection, populateData) => {
+    console.log(`file: jobs.services.js ~ line 26 ~ exports.findJobById= ~ populateData`, populateData)
+    if (populateData) {
+        return await Job.findById({ _id: id })
+            .select(selection)
+            .populate({
+                path: populateData.path,
+                populate: {
+                    path: populateData.id
+                }
+            })
+    } else {
+        return await Job.findById({ _id: id })
+            .select(selection)
+    }
+
 };
 exports.applierService = async (jobId, userId, pdfPath) => {
     const job = await Job.findOne({ _id: jobId }).select('applierDoc expireDate');
