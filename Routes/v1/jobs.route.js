@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const jobsController = require('../../Controller/jobs.controller');
+const AuthRoute = require('../../middleware/AuthRoute');
 const upload = require('../../middleware/Uploader');
 
 const verifyToken = require('../../utils/verifyToken');
@@ -10,10 +11,10 @@ router.post('/:id/apply', verifyToken, upload.single("doc"), jobsController.appl
 
 router.route('/')
     .get(jobsController.getJobs)
-    .post(jobsController.postJob);
+    .post(verifyToken, AuthRoute("hr", "admin"), jobsController.postJob);
 
 router.route('/:id')
-    .patch(jobsController.updateJob)
+    .patch(verifyToken, AuthRoute("hr", "admin"), jobsController.updateJob)
     .get(jobsController.getJobById)
 
 module.exports = router;
