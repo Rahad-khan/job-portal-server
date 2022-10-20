@@ -23,7 +23,6 @@ exports.getHrJobsById = async (id) => {
     return await User.findOne({ _id: id }).select('postedJob').populate('postedJob');
 };
 exports.findJobById = async (id, selection, populateData) => {
-    console.log(`file: jobs.services.js ~ line 26 ~ exports.findJobById= ~ populateData`, populateData)
     if (populateData) {
         return await Job.findById({ _id: id })
             .select(selection)
@@ -43,8 +42,6 @@ exports.applierService = async (jobId, userId, pdfPath) => {
     const job = await Job.findOne({ _id: jobId }).select('applierDoc expireDate');
 
     const isExist = job?.applierDoc.map(app => app?.applierId?.inspect(userId));
-    console.log(`file: jobs.services.js ~ line 32 ~ exports.applierService= ~ isExist`, isExist)
-
 
     const date = new Date();
     const isDateBackdated = validator.isAfter(date.toDateString(), job?.expireDate.toDateString());
